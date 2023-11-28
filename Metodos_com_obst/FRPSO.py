@@ -1,13 +1,7 @@
 #Autor David Oliveira.
-#Estudante de Engenharia Eletrônica da Universidade Federal de Sergipe-UFS.
+#Mestrando em Engenharia Elétrica da Universidade Federal de Campina Grande-UFCG.
 #Membro do Grupo de Pesquisa em Robotica da UFS-GPRUFS.
 #Implementação do Fully Resampled Particle Swarm Optimizarion
-#para encontrar encontrar uma configuração q
-#dada uma posição (x,y,z) e uma orientacao 
-#no espaço para o Pioneer 7DOF.
-#Implementações feitas durante durante a iniciação científica intitulada:
-#PIB10456-2021 - Soluções de cinemática inversa de robôs manipuladores seriais com restrições físicas
-#Durante o período: PIBIC 2021/2022 (01/09/2021 a 31/08/2022).
 
 #Import das bibliotecas python
 from random import uniform

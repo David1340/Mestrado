@@ -1,10 +1,7 @@
 #Autor David Oliveira.
-#Estudante de Engenharia Eletrônica da Universidade Federal de Sergipe-UFS.
+#Mestrando em Engenharia Elétrica da Universidade Federal de Campina Grande-UFCG.
 #Membro do Grupo de Pesquisa em Robotica da UFS-GPRUFS.
-#Experimentos apenas a posição .
-#Implementações feitas durante durante a iniciação científica intitulada:
-#PIB10456-2021 - Soluções de cinemática inversa de robôs manipuladores seriais com restrições físicas
-#Durante o período: PIBIC 2021/2022 (01/09/2021 a 31/08/2022).
+#Implementação do Fully Resampled Particle Swarm Optimizarion
 
 #Import das bibliotecas
 import numpy as np
@@ -18,14 +15,13 @@ from funcoes import Esfera
 diretorio_atual = os.getcwd()
 sys.path.append(diretorio_atual)
 if(platform.system == 'Windows'):
-    sys.path.append(diretorio_atual + '\Metodos2')
+    sys.path.append(diretorio_atual + '\Metodos_com_obst')
 else:
-    sys.path.append(diretorio_atual + '/Metodos2')
+    sys.path.append(diretorio_atual + '/Metodos_com_obst')
 
 #Import dos métodos
-from PSO import PSO
 from FRPSO import FRPSO
-from manipulador_15dof import *
+from pioneer_7dof import *
 
 #Configurações do experimento
 Kmax = 1000
@@ -92,7 +88,12 @@ mi[0] = np.mean(kFRPSO)
 print(tc)
 print(np.round(mi,2))
 metodos = ["FRPSO"]
-arquivo = open("ExperimentoB3.txt", "w")
+
+if(len(esferas) == 0):
+    arquivo = open("Experimentos_com_obst.txt", "w")
+else:
+    rquivo = open("Experimentos_sem_obst.txt", "w")
+
 arquivo.write("Metodos: " + str(metodos) + "\n")
 arquivo.write("tc: " + str(np.round(tc,2)) + "\n")
 arquivo.write("mi: " + str(np.round(mi,2))+ "\n")
