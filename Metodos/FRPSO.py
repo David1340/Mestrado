@@ -1,13 +1,7 @@
 #Autor David Oliveira.
-#Estudante de Engenharia Eletrônica da Universidade Federal de Sergipe-UFS.
+#Mestrando em Engenharia Elétrica da Universidade Federal de Campina Grande-UFCG.
 #Membro do Grupo de Pesquisa em Robotica da UFS-GPRUFS.
 #Implementação do Fully Resampled Particle Swarm Optimizarion
-#para encontrar encontrar uma configuração q
-#dada uma posição (x,y,z) e uma orientacao 
-#no espaço para o Pioneer 7DOF.
-#Implementações feitas durante durante a iniciação científica intitulada:
-#PIB10456-2021 - Soluções de cinemática inversa de robôs manipuladores seriais com restrições físicas
-#Durante o período: PIBIC 2021/2022 (01/09/2021 a 31/08/2022).
 
 #Import das bibliotecas python
 from random import uniform
@@ -59,7 +53,7 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax):
     k = Kmax     
     q = []
     Nbests = 5
-    tau = 200
+    tau = 0.5
 
     #criando as particulas de dimensão n e calculando o valor de sua função de custo
     for i in range(number):
@@ -93,12 +87,11 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax):
     for j in range(k):
         q = []
 
-        sig = np.sqrt(1 - 0.99999*exp(-f/tau))
-        #sig = f/tau
+        sig = f/tau
         for N in range(Nbests):
             for i in range(int(number/(Nbests +1))):
                 p = sig*np.random.randn(n)
-                #p = -2*sig*np.random.random(n) + sig
+
                 for i2 in range(n):
                     p[i2] = qbests[N][i2] + p[i2]
                 q.append(particle(p,n))

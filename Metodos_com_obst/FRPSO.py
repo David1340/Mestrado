@@ -17,7 +17,7 @@ import numpy as np
 #Import das minhas funções
 from funcoes import deteccao_de_colisao, distancia, orientacao
 #Import das funções associadas ao manipulador usado
-from manipulador_15dof import *
+from pioneer_7dof import *
 
 class particle:
     def __init__(self,position,dimension):
@@ -70,8 +70,7 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
     k = Kmax     
     q = []
     Nbests = 5
-    tau = 200
-    #tau = 0.5
+    tau = 0.5
 
     evolucao_qbets = []
 
@@ -107,12 +106,11 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
     for j in range(k):
         q = []
 
-        sig = np.sqrt(1 - 1*exp(-f/tau))
-        #sig = f/tau
+        sig = f/tau
         for N in range(Nbests):
             for i in range(int(number/(Nbests +1))):
                 p = sig*np.random.randn(n)
-                #p = -2*sig*np.random.random(n) + sig
+
                 for i2 in range(n):
                     p[i2] = qbests[N][i2] + p[i2]
                 q.append(particle(p,n))

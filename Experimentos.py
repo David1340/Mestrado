@@ -28,7 +28,7 @@ from pioneer_7dof import *
 #Configurações do experimento
 Kmax = 1000
 erro_min = 0.001
-repeticoes = 1000   
+repeticoes = 3   
 
 #parâmetros do manipulador
 qlim = getLimits() 
