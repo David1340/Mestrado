@@ -60,7 +60,7 @@ mi[0] = np.mean(kFRPSO)
 print(tc)
 print(np.round(mi,2))
 metodos = ["FRPSO"]
-arquivo = open("Experimentos.txt", "w")
+arquivo = open("Experimentos_sem_obst.txt", "w")
 arquivo.write("Metodos: " + str(metodos) + "\n")
 arquivo.write("tc: " + str(np.round(tc,2)) + "\n")
 arquivo.write("mi: " + str(np.round(mi,2))+ "\n")
