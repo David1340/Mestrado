@@ -106,6 +106,12 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
                 p = sig*np.random.randn(n)
 
                 for i2 in range(n):
+                    if(p[i2] > L[i2]):
+                        p[i2] = L[i2]
+                    elif(p[i2] < -L[i2]):
+                        p[i2] = -L[i2]
+
+                for i2 in range(n):
                     p[i2] = qbests[N][i2] + p[i2]
                 q.append(particle(p,n))
 
