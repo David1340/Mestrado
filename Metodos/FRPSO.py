@@ -5,7 +5,6 @@
 
 #Import das bibliotecas python
 from random import uniform
-from math import exp
 import numpy as np
 
 #Import das minhas funções
@@ -16,7 +15,6 @@ from pioneer_7dof import *
 class particle:
     def __init__(self,position,dimension):
         self.p = position #posição atual da particula/configuração do robô
-        self.v = np.zeros(dimension) #velocidade atual da particula
         self.bp = position.copy() #melhor posição que a particula ja esteve
         self.n = dimension #dimensão da particula
         self.d = 0 #Diferença em módulo da distância atual para a desejada
@@ -25,7 +23,7 @@ class particle:
         self.bf = self.f #Melhor valor de função de custo da obtida pela particula
                    
     def update_fuction(self,o,o2): #Calcula a função de custo/fitness da particula
-        #(posição,orientacao) da pose desejada
+
         limits = getLimits()
         for (qi,li) in zip(self.p, limits):
             if(np.abs(qi) > np.abs(li)):
@@ -93,12 +91,6 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax):
                 p = sig*np.random.randn(n)             
 
                 for i2 in range(n):
-                    if(p[i2] > L[i2]):
-                        p[i2] = L[i2]
-                    elif(p[i2] < -L[i2]):
-                        p[i2] = -L[i2]
-
-                for i2 in range(n):
                     p[i2] = qbests[N][i2] + p[i2]
                 q.append(particle(p,n))
 
@@ -119,7 +111,7 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax):
                         break
                 f = min(qvalues)
                 qBest = qbests[np.argmin(qvalues)]   
-        #Atualiza a configuração do robô no Rviz
+
         #Critério de parada
         if(f <= erro_min):
             break;   

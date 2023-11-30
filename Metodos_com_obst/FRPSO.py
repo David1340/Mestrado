@@ -5,7 +5,6 @@
 
 #Import das bibliotecas python
 from random import uniform
-from math import exp
 import numpy as np
 
 #Import das minhas funções
@@ -16,7 +15,6 @@ from pioneer_7dof import *
 class particle:
     def __init__(self,position,dimension):
         self.p = position #posição atual da particula/configuração do robô
-        self.v = np.zeros(dimension) #velocidade atual da particula
         self.bp = position.copy() #melhor posição que a particula ja esteve
         self.n = dimension #dimensão da particula
         self.d = 0 #Diferença em módulo da distância atual para a desejada
@@ -63,7 +61,7 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
     #numero limite de interações
     k = Kmax     
     q = []
-    Nbests = 5
+    Nbests = 1
     tau = 0.5
 
     evolucao_qbets = []
@@ -104,13 +102,7 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
         for N in range(Nbests):
             for i in range(int(number/(Nbests +1))):
                 p = sig*np.random.randn(n)
-
-                for i2 in range(n):
-                    if(p[i2] > L[i2]):
-                        p[i2] = L[i2]
-                    elif(p[i2] < -L[i2]):
-                        p[i2] = -L[i2]
-
+            
                 for i2 in range(n):
                     p[i2] = qbests[N][i2] + p[i2]
                 q.append(particle(p,n))

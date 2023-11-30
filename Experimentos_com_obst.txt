@@ -1,0 +1,4 @@
+Metodos: ['FRPSO']
+tc: [84.4]
+mi: [95.15]
+Kmax: 1000
