@@ -15,14 +15,12 @@ from pioneer_7dof import *
 class particle:
     def __init__(self,position,dimension):
         self.p = position #posição atual da particula/configuração do robô
-        self.bp = position.copy() #melhor posição que a particula ja esteve
         self.n = dimension #dimensão da particula
         self.d = 0 #Diferença em módulo da distância atual para a desejada
         self.o = np.array([0,0,0]) #Diferença em módulo da orientacao atual para a desejada
         self.f = np.Inf #Função de custo/fitnees atual da particula
-        self.bf = self.f #Melhor valor de função de custo da obtida pela particula
                    
-    def update_fuction(self,o,o2,esferas): #Calcula a função de custo/fitness da particula
+    def update_fuction(self,position,orientation,esferas): #Calcula a função de custo/fitness da particula
         #(posição,orientacao) da pose desejada
         limits = getLimits()
         for (qi,li) in zip(self.p, limits):
@@ -44,20 +42,18 @@ class particle:
         
         p = pontos[:,end]
         #calculo do erro em módulo da orientacao desejada e da particula
-        self.o = distancia(orientacao(orient),o2,3)
+        self.o = distancia(orientacao(orient),orientation,3)
 
         #calculo da distancia euclidiana da posição do efetuador em relação ao objetivo
-        self.d = distancia(p,o,3)
+        self.d = distancia(p,position,3)
 
         #Calculo da função de custo       
         k1 = 0.1 #orientacao
         k2 = 1 #posição
-        self.f = (k1*self.o) + (k2*self.d)
-        if(self.f < self.bf):
-            self.bf = self.f
-            self.bp = self.p.copy()
 
-def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
+        self.f = (k1*self.o) + (k2*self.d)
+
+def _FRPSO(position,orientation,number,n,L,erro_min,Kmax,esferas):
     #numero limite de interações
     k = Kmax     
     q = []
@@ -73,7 +69,7 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
             p.append(uniform(-L[i2],L[i2]))
 
         q.append(particle(p,n))
-        q[i].update_fuction(o,o2,esferas)
+        q[i].update_fuction(position,orientation,esferas)
 
     #Criando as configurações qbests e sua funções de custos
     qbests = []
@@ -114,7 +110,7 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
             q.append(particle(p,n))
 
         for i in range(number):          
-            q[i].update_fuction(o,o2,esferas)
+            q[i].update_fuction(position,orientation,esferas)
 
             if(max(qvalues) > q[i].f):
                 for i2 in range(Nbests):
@@ -124,7 +120,7 @@ def FRPSO2(o,o2,number,n,L,erro_min,Kmax,esferas):
                         break
                 f = min(qvalues)            
                 qBest = qbests[np.argmin(qvalues)]   
-        #Atualiza a configuração do robô no Rviz
+        
         #Critério de parada
         evolucao_qbets.append(f)
         if(f <= erro_min):
@@ -140,7 +136,7 @@ def FRPSO(posicaod,orientacaod,erro_min,Kmax,esferas):
     #restrições de cada ângulo
     L = getLimits()
 
-    f,k,qBest,evolucao_qbets = FRPSO2(posicaod,orientacaod,numero_particulas,dimensao,L,erro_min,Kmax,esferas)
+    f,k,qBest,evolucao_qbets = _FRPSO(posicaod,orientacaod,numero_particulas,dimensao,L,erro_min,Kmax,esferas)
     #plot(qBest,posicaod,esferas)
 
     return [f,k,evolucao_qbets]
