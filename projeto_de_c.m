@@ -68,7 +68,7 @@ end
 %% Parâmetros
 tau = 1/th(2);
 c = exp(-1/(tau));
-c = 1.05*c;
+%c = 1.05*c;
 t = 1:1:6*tau;
 A = th(1);
 
@@ -79,7 +79,7 @@ plot(t,y,'linewidth',3);
 grid on
 hold on
 %% Plot da curva y = c*y;
-y2 = A;
+y2 = y;
 for k = 2:length(t)
   y2(k) = c*y2(k-1);
 end

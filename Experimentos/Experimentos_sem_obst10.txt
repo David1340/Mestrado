@@ -1,0 +1,12 @@
+Metodos: ['FRPSO']
+tc: [59.]
+mi: [177.49]
+Kmax: 1000
+
+    Nbests = 5
+    tau = 0.5#0.5
+
+    b = 0.95
+    a = (1 - 0.95)/k
+    1000 partículas
+    sem o "sort"

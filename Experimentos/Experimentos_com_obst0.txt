@@ -1,0 +1,12 @@
+Metodos: ['FRPSOV2']
+tc: [65.]
+mi: [198.65]
+Kmax: 1000
+
+    Nbests = 1
+    tau = 0.5#0.5
+
+    b = 0.99
+    a = (1 - 0.99)/k
+
+    200 partículas

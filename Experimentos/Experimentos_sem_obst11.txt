@@ -1,0 +1,9 @@
+Metodos: ['FRPSO']
+tc: [86.]
+mi: [98.14]
+Kmax: 1000
+
+    Nbests = 1
+    tau = 0.5
+    FRPSO original
+    numero_particulas = 500

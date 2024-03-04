@@ -58,7 +58,10 @@ def _FRPSO(position,orientation,number,n,L,erro_min,Kmax,esferas):
     k = Kmax     
     q = []
     Nbests = 1
-    tau = 0.5
+    tau = 0.5#0.5
+
+    b = 0.99
+    a = (1 - 0.99)/k
 
     evolucao_qbets = []
 
@@ -89,14 +92,22 @@ def _FRPSO(position,orientation,number,n,L,erro_min,Kmax,esferas):
                     qbests[j] = q[i].p.copy()
                     break
             f = min(qvalues)
-        
+
+    qbests = np.array(qbests)
+    qvalues = np.array(qvalues)
+    idcs = np.argsort(qvalues)
+    qvalues = qvalues[idcs]
+    qbests = qbests[idcs]
+    qBest = qbests[0]
+    f = qvalues[0]
+
     #Executando FRPSO
     for j in range(k):
         q = []
 
         sig = f/tau
         for N in range(Nbests):
-             for i in range(int(0.835*number)):   
+            for i in range(int(0.835*number)):
             #for i in range(int(number/(Nbests +1))):
                 p = sig*np.random.randn(n)
             
@@ -110,17 +121,21 @@ def _FRPSO(position,orientation,number,n,L,erro_min,Kmax,esferas):
                 p.append(uniform(-L[i2],L[i2]))
             q.append(particle(p,n))
 
+        c = a*j + b
+
         for i in range(number):          
             q[i].update_fuction(position,orientation,esferas)
+            if(q[i].f < c*f):
+                idc = np.argmax(qvalues)
+                qbests[idc] = q[i].p.copy()
+                qvalues[idc] = q[i].f
+                qBest = q[i].p.copy()
+                f = q[i].f
+                break
 
-            if(max(qvalues) > q[i].f):
-                for i2 in range(Nbests):
-                    if(qvalues[i2] == max(qvalues)):
-                        qvalues[i2] = q[i].f
-                        qbests[i2] = q[i].p.copy()
-                        break
-                f = min(qvalues)            
-                qBest = qbests[np.argmin(qvalues)]   
+        idcs = np.argsort(qvalues)
+        qvalues = qvalues[idcs]
+        qbests = qbests[idcs]
         
         #Critério de parada
         evolucao_qbets.append(f)
@@ -129,15 +144,16 @@ def _FRPSO(position,orientation,number,n,L,erro_min,Kmax,esferas):
 
     return [f,j+1,qBest,evolucao_qbets]
 
-def FRPSO(posicaod,orientacaod,erro_min,Kmax,esferas):
+def FRPSOV2(posicaod,orientacaod,erro_min,Kmax,esferas):
 
     orientacaod = orientacao(orientacaod)
-    numero_particulas = 500
+    numero_particulas = 1000
     dimensao = getNumberJoints() #dimensão do robô
     #restrições de cada ângulo
     L = getLimits()
 
     f,k,qBest,evolucao_qbets = _FRPSO(posicaod,orientacaod,numero_particulas,dimensao,L,erro_min,Kmax,esferas)
+    #print(f)
     #plot(qBest,posicaod,esferas)
 
     return [f,k,evolucao_qbets]
