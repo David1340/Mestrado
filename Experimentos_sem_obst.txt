@@ -1,4 +1,4 @@
 Metodos: ['Novo_PSO']
-tc: [83.7]
-mi: [44.88]
+tc: [100.]
+mi: [20.88]
 Kmax: 300

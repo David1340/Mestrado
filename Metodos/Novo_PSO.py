@@ -84,7 +84,7 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
             
     #Executando PSO
     for j in range(k):
-        #shuffle(q)
+        shuffle(q)
         for i in range(number):          
             q[i].update_position(qbest,L)
             q[i].update_fuction(o,o2)
@@ -93,7 +93,7 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
             if(q[i].f < c*f ): 
                 qbest = q[i].p.copy()
                 f = q[i].f
-            continue
+                break
         #Critério de parada
         if(f <= erro_min):
             break;   

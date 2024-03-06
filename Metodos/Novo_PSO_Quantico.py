@@ -15,6 +15,7 @@ import numpy as np
 
 #Import das minhas funções
 from funcoes import distancia, orientacao
+from funcoes_quanticas import AAQ, medir
 #Import das funções associadas ao manipulador
 from pioneer_7dof import *
 
@@ -31,7 +32,7 @@ class particle:
         c1 = 1 #grupo
         for i in range(self.n):
             w = 0.5 + random()/2
-            vmax = 0.1 #np.inf
+            vmax = 3*0.1 #np.inf
             #w = random()
 
             self.v[i] = w*self.v[i] + c1*random()*(qbest[i] - self.p[i])
@@ -62,6 +63,7 @@ class particle:
 
 def PSO2(o,o2,number,n,L,erro_min,Kmax):
     #numero limite de interações
+    n2 = np.log2(number).astype(int)
     k = Kmax     
     q = []
     c = 1 #limiar de decisão para escolher a melhor partícula
@@ -83,17 +85,29 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
             f = q[i].f
             
     #Executando PSO
+    cont = 0
     for j in range(k):
-        #shuffle(q)
+        indices = []
         for i in range(number):          
             q[i].update_position(qbest,L)
             q[i].update_fuction(o,o2)
             
             #Se alguma particula satisfazer q[i].f < c*f
             if(q[i].f < c*f ): 
+                indices.append(i)
+
+        #AAQ    
+        x = AAQ(n2,len(indices),indices)
+        i = medir(x)
+        if((i < number) and (q[i].f < c*f)): 
                 qbest = q[i].p.copy()
                 f = q[i].f
-            continue
+        else:
+            if(len(indices) > 0):
+                cont = cont + 1
+                print("AAQ Falhou " + str(cont))
+                print("M = " + str(len(indices)))
+
         #Critério de parada
         if(f <= erro_min):
             break;   

@@ -24,7 +24,7 @@ from Novo_PSO import PSO
 from pioneer_7dof import *
 #Configurações do experimento
 Kmax = 300
-erro_min =  0.01 *(sum(getLengthElos()) + 0.075)  #0.001
+erro_min = 0.01*(sum(getLengthElos()) + 0.075)  #0.001
 print(erro_min)
 repeticoes = 1000
 
