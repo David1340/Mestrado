@@ -28,10 +28,10 @@ class particle:
         self.f = np.Inf #Função de custo/fitnees atual da particula
 
     def update_position(self,qbest,L): #Atualiza a posição da particula/configuração do robô
-        c1 = 1 #grupo
+        c1 = 2 #grupo
         for i in range(self.n):
             w = 0.5 + random()/2
-            vmax = 0.1 #np.inf
+            vmax = 0.2 #np.inf
             #w = random()
 
             self.v[i] = w*self.v[i] + c1*random()*(qbest[i] - self.p[i])

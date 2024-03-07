@@ -20,7 +20,7 @@ else:
     sys.path.append(diretorio_atual + '/Metodos')
 
 #Import dos métodos
-from Novo_PSO import PSO
+from Novo_PSO_Quantico import PSO
 from pioneer_7dof import *
 #Configurações do experimento
 Kmax = 300

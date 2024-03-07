@@ -15,7 +15,7 @@ import numpy as np
 
 #Import das minhas funções
 from funcoes import distancia, orientacao
-from funcoes_quanticas import AAQ, medir
+from funcoes_quanticas import AAQ, medir, AAQ2
 #Import das funções associadas ao manipulador
 from pioneer_7dof import *
 
@@ -29,10 +29,10 @@ class particle:
         self.f = np.Inf #Função de custo/fitnees atual da particula
 
     def update_position(self,qbest,L): #Atualiza a posição da particula/configuração do robô
-        c1 = 1 #grupo
+        c1 = 2 #grupo
         for i in range(self.n):
             w = 0.5 + random()/2
-            vmax = 3*0.1 #np.inf
+            vmax = 2*0.1 #np.inf
             #w = random()
 
             self.v[i] = w*self.v[i] + c1*random()*(qbest[i] - self.p[i])
@@ -96,9 +96,13 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
             if(q[i].f < c*f ): 
                 indices.append(i)
 
-        #AAQ    
-        x = AAQ(n2,len(indices),indices)
-        i = medir(x)
+        #AAQ  1  
+        #x = AAQ(n2,len(indices),indices)
+        #i = medir(x)
+                
+        #AAQ 2
+        i = AAQ2(n2,indices)
+
         if((i < number) and (q[i].f < c*f)): 
                 qbest = q[i].p.copy()
                 f = q[i].f

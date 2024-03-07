@@ -58,3 +58,39 @@ def medir(x):
 
     
 
+def AAQ2(n,indices):
+    #Amplificação de amplitude quântica quando o M é desconhecido
+    X = np.array([[0,1],[1,0]]) #Operador Inversor
+    q = np.array([[1,0]]).T #Qubit Oracle
+    x = q.copy() #Initial State
+    u = np.ones([2**n,1])
+    u = u/np.linalg.norm(u) #uniform state
+    N = 2**n
+    O = oracle(n,indices)
+
+    for _ in range(1,n):
+        x = np.kron(x,q)
+
+    H = Hadamard(1)
+    H_n = Hadamard(n)
+    q = H@X@q
+    x = H_n@x
+    I = np.eye(2**n)
+    G = (2*u*u.T - I)@O
+
+    x0 = x.copy()
+    m = 1
+    lamb = 6/5
+    while(True):
+        j = (np.round((m-1)*random())).astype(int)
+        x = x0.copy()
+        for _ in range(j):
+            x = G@x
+        
+        x_medido = medir(x)
+        if(any(i == x_medido for i in indices)):
+            return x_medido
+        elif(m >= np.sqrt(N)):
+            return medir(x0)
+        else:
+            m = np.min([lamb*m,np.sqrt(N)])
