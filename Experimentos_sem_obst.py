@@ -1,7 +1,6 @@
 #Autor David Oliveira.
 #Mestrando em Engenharia Elétrica da Universidade Federal de Campina Grande-UFCG.
 #Membro do Grupo de Pesquisa em Robotica da UFS-GPRUFS.
-#Implementação do Fully Resampled Particle Swarm Optimizarion
 
 #Import das bibliotecas
 import numpy as np
@@ -22,7 +21,9 @@ else:
 #Import dos métodos
 from Novo_PSO_Quantico import PSO
 from pioneer_7dof import *
+
 #Configurações do experimento
+metodos = ["Novo_PSO_Quantico"]
 Kmax = 300
 erro_min = 0.01*(sum(getLengthElos()) + 0.075)  #0.001
 print(erro_min)
@@ -34,9 +35,11 @@ n = getNumberJoints()
 q = np.zeros([n,1])
 
 klist = []
+kcont = []
 
 tc = [0]
 mi = tc.copy()
+mf = tc.copy()
 
 for i in range(repeticoes):
     print('i:',i)
@@ -47,22 +50,26 @@ for i in range(repeticoes):
 
     [posicaod,orientacaod] = random_pose()
     
-    [erro,k] = PSO(posicaod,orientacaod,erro_min,Kmax)
+    [erro,k,cont] = PSO(posicaod,orientacaod,erro_min,Kmax)
 
     if(erro < erro_min):
         klist.append(k)
-
+        kcont.append(cont)
 
 tc[0] = (len(klist)/repeticoes) * 100
 
 mi[0] = np.mean(klist)
+mf[0] = np.mean(kcont)
 
 print(tc)
 print(np.round(mi,2))
-metodos = ["Novo_PSO"]
+print(np.round(mf,2))
+
+
 arquivo = open("Experimentos_sem_obst.txt", "w")
 arquivo.write("Metodos: " + str(metodos) + "\n")
 arquivo.write("tc: " + str(np.round(tc,2)) + "\n")
-arquivo.write("mi: " + str(np.round(mi,2))+ "\n")
+arquivo.write("mi: " + str(np.round(mi,2)) + "\n")
+arquivo.write("mf: " + str(mf) + "\n") 
 arquivo.write("Kmax: " + str(Kmax))
 arquivo.close()

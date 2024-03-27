@@ -62,6 +62,7 @@ class particle:
 
 def PSO2(o,o2,number,n,L,erro_min,Kmax):
     #numero limite de interações
+    contador  = 0
     k = Kmax     
     q = []
     c = 1 #limiar de decisão para escolher a melhor partícula
@@ -88,6 +89,7 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
         for i in range(number):          
             q[i].update_position(qbest,L)
             q[i].update_fuction(o,o2)
+            contador = contador + 1
             
             #Se alguma particula satisfazer q[i].f < c*f
             if(q[i].f < c*f ): 
@@ -98,14 +100,14 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
         if(f <= erro_min):
             break;   
 
-    return [f,j+1]
+    return [f,j+1,contador]
 
 
 
 def PSO(posicaod,orientacaod,erro_min,Kmax):
 
     orientacaod = orientacao(orientacaod)
-    numero_particulas = 256
+    numero_particulas = 128
     dimensao = getNumberJoints() #dimensão do robô
     #restrições de cada ângulo
     L = getLimits()

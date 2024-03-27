@@ -1,13 +1,6 @@
 #Autor David Oliveira.
-#Estudante de Engenharia Eletrônica da Universidade Federal de Sergipe-UFS.
+#Mestrando em Engenharia Elétrica da Universidade Federal de Campina Grande-UFCG.
 #Membro do Grupo de Pesquisa em Robotica da UFS-GPRUFS.
-#Implementação do Particle Swarm Optimizarion - P
-#para encontrar encontrar uma configuração q
-#dada uma posição (x,y,z) e uma orientacao 
-#no espaço para o Pioneer 7DOF.
-#Implementações feitas durante durante a iniciação científica intitulada:
-#PIB10456-2021 - Soluções de cinemática inversa de robôs manipuladores seriais com restrições físicas
-#Durante o período: PIBIC 2021/2022 (01/09/2021 a 31/08/2022).
 
 #Import das bibliotecas python
 from random import random,uniform,shuffle
@@ -63,6 +56,7 @@ class particle:
 
 def PSO2(o,o2,number,n,L,erro_min,Kmax):
     #numero limite de interações
+    contador  = 0
     n2 = np.log2(number).astype(int)
     k = Kmax     
     q = []
@@ -85,7 +79,6 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
             f = q[i].f
             
     #Executando PSO
-    cont = 0
     for j in range(k):
         indices = []
         for i in range(number):          
@@ -101,29 +94,28 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
         #i = medir(x)
                 
         #AAQ 2
-        i = AAQ2(n2,indices)
+        [i,cont] = AAQ2(n2,indices)
+        contador = contador + cont
 
         if((i < number) and (q[i].f < c*f)): 
                 qbest = q[i].p.copy()
                 f = q[i].f
         else:
             if(len(indices) > 0):
-                cont = cont + 1
-                print("AAQ Falhou " + str(cont))
-                print("M = " + str(len(indices)))
+                print("AAQ Falhou ")
 
         #Critério de parada
         if(f <= erro_min):
             break;   
 
-    return [f,j+1]
+    return [f,j+1,contador]
 
 
 
 def PSO(posicaod,orientacaod,erro_min,Kmax):
 
     orientacaod = orientacao(orientacaod)
-    numero_particulas = 256
+    numero_particulas = 128
     dimensao = getNumberJoints() #dimensão do robô
     #restrições de cada ângulo
     L = getLimits()

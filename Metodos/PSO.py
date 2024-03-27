@@ -31,7 +31,7 @@ class particle:
 
     def update_position(self,qbest,L): #Atualiza a posição da particula/configuração do robô
         c1 = 1 #grupo
-        c2 = 0 #individual
+        c2 = 0.1 #individual
         for i in range(self.n):
             w = 0.5 + random()/2
             vmax = 0.1 #np.inf
@@ -60,7 +60,7 @@ class particle:
         self.d = distancia(p,o,3)
 
         #Calculo da função de custo       
-        k1 = 0 #orientacao
+        k1 = 0.1 #orientacao
         k2 = 1 #posição
         self.f = (k1*self.o) + (k2*self.d)
         if(self.f < self.bf):
@@ -105,14 +105,14 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
         if(f <= erro_min):
             break;   
 
-    return [f,j+1]
+    return [f,j+1,number*(j+1)]
 
 
 
 def PSO(posicaod,orientacaod,erro_min,Kmax):
 
     orientacaod = orientacao(orientacaod)
-    numero_particulas = 256
+    numero_particulas = 128
     dimensao = getNumberJoints() #dimensão do robô
     #restrições de cada ângulo
     L = getLimits()

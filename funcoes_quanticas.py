@@ -1,3 +1,7 @@
+#Autor David Oliveira.
+#Mestrando em Engenharia Elétrica da Universidade Federal de Campina Grande-UFCG.
+#Membro do Grupo de Pesquisa em Robotica da UFS-GPRUFS.
+
 import numpy as np
 from random import random
 
@@ -59,6 +63,7 @@ def medir(x):
     
 
 def AAQ2(n,indices):
+    contador = 0
     #Amplificação de amplitude quântica quando o M é desconhecido
     X = np.array([[0,1],[1,0]]) #Operador Inversor
     q = np.array([[1,0]]).T #Qubit Oracle
@@ -85,12 +90,14 @@ def AAQ2(n,indices):
         j = (np.round((m-1)*random())).astype(int)
         x = x0.copy()
         for _ in range(j):
+            contador  = contador + 1
             x = G@x
         
         x_medido = medir(x)
         if(any(i == x_medido for i in indices)):
-            return x_medido
+            contador  = contador + 1
+            return [x_medido, contador]
         elif(m >= np.sqrt(N)):
-            return medir(x0)
+            return [medir(x0), contador]
         else:
             m = np.min([lamb*m,np.sqrt(N)])
