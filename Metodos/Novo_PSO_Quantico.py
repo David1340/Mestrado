@@ -10,7 +10,7 @@ import numpy as np
 from funcoes import distancia, orientacao
 from funcoes_quanticas import AAQ, medir, AAQ2
 #Import das funções associadas ao manipulador
-from pioneer_7dof import *
+from manipulador_15dof import *
 
 class particle:
     def __init__(self,position,dimension):
@@ -115,7 +115,7 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
 def PSO(posicaod,orientacaod,erro_min,Kmax):
 
     orientacaod = orientacao(orientacaod)
-    numero_particulas = 128
+    numero_particulas = 512
     dimensao = getNumberJoints() #dimensão do robô
     #restrições de cada ângulo
     L = getLimits()

@@ -20,12 +20,12 @@ else:
 
 #Import dos métodos
 from Novo_PSO_Quantico import PSO
-from pioneer_7dof import *
+from manipulador_15dof import *
 
 #Configurações do experimento
-metodos = ["Novo_PSO_Quantico"]
+metodos = ["PSO"]
 Kmax = 300
-erro_min = 0.01*(sum(getLengthElos()) + 0.075)  #0.001
+erro_min = 0.005*(sum(getLengthElos()) + 0.075)  #0.001
 print(erro_min)
 repeticoes = 1000
 

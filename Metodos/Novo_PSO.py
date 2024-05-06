@@ -107,7 +107,7 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
 def PSO(posicaod,orientacaod,erro_min,Kmax):
 
     orientacaod = orientacao(orientacaod)
-    numero_particulas = 128
+    numero_particulas = 512
     dimensao = getNumberJoints() #dimensão do robô
     #restrições de cada ângulo
     L = getLimits()

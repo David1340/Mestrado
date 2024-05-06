@@ -16,7 +16,7 @@ import numpy as np
 #Import das minhas funções
 from funcoes import distancia, orientacao
 #Import das funções associadas ao manipulador
-from pioneer_7dof import *
+from manipulador_15dof import *
 
 class particle:
     def __init__(self,position,dimension):
@@ -34,7 +34,7 @@ class particle:
         c2 = 0.1 #individual
         for i in range(self.n):
             w = 0.5 + random()/2
-            vmax = 0.1 #np.inf
+            vmax = 0.2 #np.inf
             #w = random()
 
             self.v[i] = w*self.v[i] + c1*random()*(qbest[i] - self.p[i])+ c2*random()*(self.bp[i] - self.p[i])
@@ -112,7 +112,7 @@ def PSO2(o,o2,number,n,L,erro_min,Kmax):
 def PSO(posicaod,orientacaod,erro_min,Kmax):
 
     orientacaod = orientacao(orientacaod)
-    numero_particulas = 128
+    numero_particulas = 256
     dimensao = getNumberJoints() #dimensão do robô
     #restrições de cada ângulo
     L = getLimits()
