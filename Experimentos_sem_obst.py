@@ -23,9 +23,9 @@ from Novo_PSO_Quantico import PSO
 from manipulador_15dof import *
 
 #Configurações do experimento
-metodos = ["PSO"]
+metodos = ["PSO_quantico"]
 Kmax = 300
-erro_min = 0.005*(sum(getLengthElos()) + 0.075)  #0.001
+erro_min = 0.5*0.01*(sum(getLengthElos()) + 0.075) 
 print(erro_min)
 repeticoes = 1000
 

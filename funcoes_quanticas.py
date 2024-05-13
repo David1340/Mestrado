@@ -94,8 +94,8 @@ def AAQ2(n,indices):
             x = G@x
         
         x_medido = medir(x)
-        if(any(i == x_medido for i in indices)):
-            contador  = contador + 1
+        contador  = contador + 1 #checagem clássica
+        if(any(i == x_medido for i in indices)):         
             return [x_medido, contador]
         elif(m >= np.sqrt(N)):
             return [medir(x0), contador]
