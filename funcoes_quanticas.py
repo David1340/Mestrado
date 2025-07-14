@@ -3,8 +3,9 @@
 #Membro do Grupo de Pesquisa em Robotica da UFS-GPRUFS.
 
 import numpy as np
+import random
+random.seed(42)  # Set seed for reproducibility
 from random import random
-
 def oracle(n,indices):
     O = np.eye(2**n)
     for i in indices:

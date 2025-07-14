@@ -9,7 +9,9 @@
 from  math import pi
 import numpy as np
 from funcoes import matriz_homogenea, S, Esfera, deteccao_de_colisao
-from random import uniform
+import random
+random.seed(42)  # Set seed for reproducibility
+from random import random,uniform
 
 def getDH_paramaters(q):
     elos = getLengthElos()

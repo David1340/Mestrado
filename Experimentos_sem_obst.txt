@@ -1,5 +1,0 @@
-Metodos: ['PSO_quantico']
-tc: [98.]
-mi: [65.83]
-mf: [4044.6316326530614]
-Kmax: 300
